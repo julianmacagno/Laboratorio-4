@@ -2,8 +2,11 @@
 
 const express = require('express');
 const exphbs = require('express-handlebars');
+const session = require('express-session');
 const bodyParser = require('body-parser');
 const helpers = require('./helpers');
+const jwt = require('jsonwebtoken');
+const fs = require('fs');
 
 const app = express();
 
@@ -18,13 +21,37 @@ app.engine('handlebars', hbs.engine);
 app.set('view engine','handlebars');
 
 app.use(bodyParser.urlencoded({extended: true}));
+app.use(session({
+  secret: 'mys3cr3t',
+  resave: false,
+  saveUninitialized: true,
+  cookie: { secure: false}
+}));
 
 app.get('/', (req, res) => {
-  res.redirect('login');
+  var sess = req.session;
+  if(!sess.token) {
+    console.log("No hay token");
+    res.redirect("/login");
+  } else {
+    res.redirect("/home");
+  }
 });
 
 app.get('/login', (req, res) => {
-  res.render('login');
+  var sess = req.session;
+  if(!sess.token) {
+    let loginParams = {};
+    if(sess.loginError === "true") {
+      loginParams = {
+        errorMsg: sess.errorMsg
+      }
+    }
+    res.render('login', loginParams);
+  }
+  else {
+    res.redirect('/home');
+  }    
 });
 
 app.post('/login', (req, res) => {
@@ -33,17 +60,16 @@ app.post('/login', (req, res) => {
     password: req.body.password
   };
 
-  helpers.login(credentials).then(logged => {
-    if(logged) {
-      let loginParams = {
-        username: credentials.username
-      };
-      res.render('home', loginParams);
+  var sess = req.session;
+  helpers.login(credentials).then(body => {
+    if(body.logged) {
+      sess.token = body.token;
+      res.redirect("/home"); //tengo que mandar el parametro del nombre de usuario que se setea en home.handlebars
     } else {
-      let loginParams = {
-      errorMsg: "invalid credentials"
-      };
-      res.render('login', loginParams);
+      console.log("Invalid credentials");
+      sess.errorMsg = "Invalid credentials";
+      sess.loginError = "true";
+      res.redirect("/login");
     }
   }, err => {
     console.error(err);
@@ -79,11 +105,14 @@ app.post('/logout', (req, res) => {
     username: req.body.username
   }
 
-  console.log("username:" + username);
+  console.log("username:" + username.username);
   
-  helpers.logout(username).then(created => {
-    if(created) {
+  helpers.logout(username).then(resp => {
+    if(resp) {
+      req.session.token = null;
+      req.session.loginError = "false";
       res.redirect('login');
+      return;
     } else {
       let logoutParams = {
         errorMsg: "username could not be passed, try again"
@@ -95,14 +124,30 @@ app.post('/logout', (req, res) => {
   });
 });
 
-
 app.get('/home', (req, res) => {
-  let homeParams = {
-    msg: 'hello'
-  };
+  var sess = req.session
+  if(!sess.token) {
+    console.log("No hay token");
+    res.redirect('/login');
+    return;
+  } else {
 
-  res.render('home', homeParams);
+    let homeParams = {
+      msg: 'hello',
+      username: decryptToken(sess.token)
+    };
+  
+    res.render('home', homeParams);
+  }  
 });
+
+const decryptToken = function(token) {
+  var opt = {
+    algorithms: ["RS256"]
+  }
+  var decoded = jwt.verify(token, fs.readFileSync("../spt-auth-master/app/keypair.pub"), opt);
+  return decoded.username
+}
 
 const server = app.listen(8080,'127.0.0.1', () => {
   const host = server.address().address;

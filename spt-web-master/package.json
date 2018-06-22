@@ -12,9 +12,11 @@
   "license": "ISC",
   "dependencies": {
     "body-parser": "^1.18.2",
+    "crypto": "^1.0.1",
     "express": "^4.16.3",
     "express-handlebars": "^3.0.0",
     "express-session": "^1.15.6",
+    "jsonwebtoken": "^8.3.0",
     "live": "^0.1.25-beta.0",
     "request": "^2.85.0"
   },

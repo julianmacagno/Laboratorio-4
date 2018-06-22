@@ -13,7 +13,7 @@ const logout = username => {
   return new Promise((resolve, reject) => {
     request.post(options, (err, res, body) => {
       if(err) reject(err);
-      else resolve(JSON.parse(body)['created']);
+      else resolve(JSON.parse(body)['status']);
     });
   });
 };
@@ -30,7 +30,7 @@ const login = credentials => {
   return new Promise((resolve, reject) => {
     request.post(options, (err, res, body) => {
       if(err) reject(err);
-      else resolve(JSON.parse(body)['logged']);
+      else resolve(JSON.parse(body));
     });
   });
 };
