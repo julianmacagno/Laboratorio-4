@@ -1,4 +1,5 @@
 import pymysql
+from flask import Flask, jsonify
 
 class UserDal(object):
     """ user database interface """
@@ -10,6 +11,37 @@ class UserDal(object):
         'user': 'julianmacagno',
         'passwd': 'rivadavia850'
     }
+
+    def getAuditEvents(self, user):
+        try:
+            print("intentando devolver la lista de audits en el DAL")
+            conn = pymysql.connect(**self.mysql_config)
+            cursor = conn.cursor()
+            cursor.execute("select * from credentials where username = '" + user['username'] + "' and admin = 'S'")
+            
+            if cursor.rowcount is 0:
+                qst = "select username, event_id, date_format(event_date, '%d %m %Y %h:%i:%s') as datetime from audit_events where username = '" + user['username'] + "'"    
+            else:
+                qst = "select username, event_id, date_format(event_date, '%d %m %Y %h:%i:%s') as datetime from audit_events"
+            
+            cursor.execute(qst)
+            rv = cursor.fetchall()
+            payload = []
+            content = {}
+            for result in rv:
+                content = {'username' : result[0],
+                           'event_id': result[1],
+                           'datetime': result[2] }
+                payload.append(content)    
+            conn.commit()
+            conn.close()
+            return payload
+        except pymysql.err as err:
+            print err
+            print "MYSQL Exception"
+            cursor.close()
+            return False
+            
 
     def insert(self, user):
         try:

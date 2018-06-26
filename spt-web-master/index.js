@@ -38,6 +38,22 @@ app.get('/', (req, res) => {
   }
 });
 
+app.post('/audit', (req, res) => { 
+  helpers.audit(req.body.username).then(body => {
+    if(body) {
+      const auditParams = {
+        username: req.body.username,
+        audit: body.audit
+      }
+      res.render('home', auditParams);
+    } else {
+      console.log("No se pudo devolver el registro de eventos");
+    }
+  }, err => {
+    console.error(err);
+  });
+})
+
 app.get('/login', (req, res) => {
   var sess = req.session;
   if(!sess.token) {
@@ -133,7 +149,6 @@ app.get('/home', (req, res) => {
   } else {
 
     let homeParams = {
-      msg: 'hello',
       username: decryptToken(sess.token)
     };
   

@@ -1,6 +1,34 @@
 const request = require('request');
 const AUTH_SERVICE_PATH = 'http://localhost:8081';
 
+const audit = username => {
+  let options = {
+    url: `${AUTH_SERVICE_PATH}/audit`,
+    headers: {
+      'content-type': 'application/json'
+    },
+    body: JSON.stringify(username)
+  };
+
+  return new Promise((resolve, reject) => {
+    request.post(options, (err, res, body) => {
+      if(err) {
+        reject(err);
+      }
+      else {
+        if (body) {
+          resolve(JSON.parse(body));
+        }
+        else {
+          console.log("Entro al else");
+          resolve(JSON.parse({}));
+        }
+      }
+    });
+  });
+}
+
+
 const logout = username => {
   let options = {
     url: `${AUTH_SERVICE_PATH}/logout`,
@@ -55,5 +83,6 @@ const register = credentials => {
 module.exports = {
   login: login,
   register: register,
-  logout: logout
+  logout: logout,
+  audit: audit
 }

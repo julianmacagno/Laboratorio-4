@@ -7,6 +7,13 @@ class UserHandler(object):
     def __init__(self):
         self.user_model = UserModel()
 
+    def audit(self, req): 
+        data = req.json
+        return self.user_model.getAuditEvents({
+            "username": data
+        })
+        
+
     def register(self, req):
         data = req.json
         return self.user_model.create({

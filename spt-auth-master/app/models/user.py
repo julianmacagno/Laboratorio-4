@@ -6,6 +6,9 @@ class UserModel(object):
     def __init__(self):
         self.user_dal = UserDal()
     
+    def getAuditEvents(self, u):
+        return self.user_dal.getAuditEvents(u)
+
     def create(self, u):
         if self.user_dal.insert(u):
             self.user_dal.log_on_audit_events(u['username'], "Successful Registration")

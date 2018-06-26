@@ -7,6 +7,12 @@ from handlers.user import UserHandler
 app = Bottle()
 user_handler = UserHandler()
 
+@app.post('/audit')
+def audit():
+    response.content_type = 'application/json'
+    audit = user_handler.audit(request)
+    return json.dumps({'status': 'OK', 'audit': audit})
+
 @app.post('/login')
 def login():
     response.content_type = 'application/json'
