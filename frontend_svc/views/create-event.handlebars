@@ -1,0 +1,55 @@
+<div class="container">
+    <div class="row">
+        <div class="col"></div>
+        <div class="col-6 p-4">
+            <h2 class="font-weight-light">Nuevo Evento</h2>
+        </div>
+        <div class="col"></div>
+    </div>
+
+    <div class="row">
+        <div class="col"></div>
+        <div class="col-6">
+            <form action="event" method="POST">
+                <div class="form-group">
+                    <label for="location">Lugar</label>
+                    <select name="location" class="form-control">
+                        {{#each locations}}
+                            <option value="{{this.id}}"> {{this.name}} </option>
+                        {{/each}}
+                        
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="password">Nombre</label>
+                    <input class="form-control" type="text" name="name" placeholder="Nombre del evento"
+                        required="true">
+                </div>
+                <div class="form-group">
+                    <label for="date">Fecha</label>
+                    <input class="form-control" type="text" name="date" placeholder="AAAA-MM-DD" required="true">
+                </div>
+                <div class="form-group">
+                    <label>Fotos</label>
+                    <div class="row">
+                        <div class="col">
+                        <input class="form-control-file" type="file" name="photo1">
+                    </div>
+                    <div class="col">
+                        <input class="form-control-file" type="file" name="photo2">
+                    </div>
+                    <div class="col">
+                        <input class="form-control-file" type="file" name="photo3">
+                    </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="description">Descripcion</label>
+                    <textarea class="form-control" name="description" cols="20" rows="5"></textarea>
+                </div>
+                <button class="btn btn-success" type="submit">Listo</button>
+            </form>
+        </div>
+        <div class="col"></div>
+    </div>
+</div>

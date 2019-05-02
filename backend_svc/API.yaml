@@ -1,0 +1,623 @@
+swagger: "2.0"
+info:
+  description: "This is a lab4-final project server."
+  version: "1.0.0"
+  title: "Listas Ya!"
+host: "undefined"
+basePath: "/"
+tags:
+- name: "Reserve"
+  description: "Make your own reservations here!"
+  externalDocs:
+    description: "Find out more"
+    url: "http://undefined.com"
+- name: "Join reservations"
+  description: "Join your friend's reservations"
+- name: "Find places to go"
+  description: "View mos interesting places to visit"
+  externalDocs:
+    description: "Find out more in our app"
+    url: "http://undefined.io"
+schemes:
+- "https"
+paths:
+  /locations:
+    post:
+      tags:
+      - "locations"
+      summary: "Create a new location on the service"
+      description: ""
+      operationId: "addLocation"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "Location object that needs to be added to the service"
+        required: true
+        schema:
+          $ref: "#/definitions/Location"
+      responses:
+        405:
+          description: "Invalid input"
+    get:
+      tags: 
+      - "locations"
+      summary: "Return all locations in the server"
+      description: ""
+      operationId: "getAllLocations"
+      produces: 
+      - "application/json"
+      responses:
+        200:
+          description: "Successful operation"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/Location"
+  /locations/{locationId}:
+    get:
+      tags:
+      - "locations"
+      summary: "Find location by Id"
+      description: "Returns a single location"
+      operationId: "getLocationById"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "locationId"
+        in: "path"
+        description: "ID of location to return"
+        required: true
+        type: "integer"
+        format: "int64"
+      responses:
+        200:
+          description: "Luccessful operation"
+          schema:
+            $ref: "#/definitions/Location"
+        400:
+          description: "Invalid ID supplied"
+        404:
+          description: "Location not found"
+    put:
+      tags:
+      - "locations"
+      summary: "Updates a location in the store with form data"
+      description: ""
+      operationId: "updateLocationWithForm"
+      consumes:
+      - "application/x-www-form-urlencoded"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "locationId"
+        in: "path"
+        description: "ID of location that needs to be updated"
+        required: true
+        type: "integer"
+        format: "int64"
+      - name: "name"
+        in: "formData"
+        description: "Update the name of the location"
+        required: false
+        type: "string"
+      - name: "type"
+        in: "formData"
+        description: "Update the type of the location"
+        required: false
+        type: "string"
+      - name: "location"
+        in: "formData"
+        description: "Update the address of the location"
+        required: false
+        type: "string"
+      - name: "owner"
+        in: "formData"
+        description: "Update the owner of the location"
+        required: false
+        type: "string"
+      responses:
+        405:
+          description: "Invalid input"
+    delete:
+      tags:
+      - "locations"
+      summary: "Deletes a location"
+      description: ""
+      operationId: "deleteLocation"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "locationId"
+        in: "path"
+        description: "Location id to delete"
+        required: true
+        type: "integer"
+        format: "int64"
+      responses:
+        400:
+          description: "Invalid ID supplied"
+        404:
+          description: "Location not found"
+  /locations/{locationId}/uploadImage:
+    post:
+      tags:
+      - "locations"
+      summary: "uploads an image"
+      description: ""
+      operationId: "uploadFile"
+      consumes:
+      - "multipart/form-data"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "locationId"
+        in: "path"
+        description: "ID of location to update"
+        required: true
+        type: "integer"
+        format: "int64"
+      - name: "file"
+        in: "formData"
+        description: "file to upload"
+        required: false
+        type: "file"
+      responses:
+        200:
+          description: "successful operation"
+  /events:
+    post:
+      tags:
+      - "events"
+      summary: "Create a new event on a location"
+      description: ""
+      operationId: "createEvent"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "Event object that needs to be added to a location"
+        required: true
+        schema:
+          $ref: "#/definitions/Event"
+      responses:
+        405:
+          description: "Invalid input"
+    get:
+      tags: 
+      - "events"
+      summary: "Return all events in the server"
+      description: ""
+      operationId: "getAllEvents"
+      produces: 
+      - "application/json"
+      responses:
+        200:
+          description: "Successful operation"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/Event"
+  /events/{eventId}:
+    get:
+      tags:
+      - "events"
+      summary: "Find Event by Id"
+      description: "Returns a single Event"
+      operationId: "getEventById"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "eventId"
+        in: "path"
+        description: "ID of Event to return"
+        required: true
+        type: "integer"
+        format: "int64"
+      responses:
+        200:
+          description: "Successful operation"
+          schema:
+            $ref: "#/definitions/Event"
+        400:
+          description: "Invalid ID supplied"
+        404:
+          description: "Event not found"
+    put:
+      tags:
+      - "events"
+      summary: "Updates a event in the system with form data"
+      description: ""
+      operationId: "updateEventWithForm"
+      consumes:
+      - "application/x-www-form-urlencoded"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "eventId"
+        in: "path"
+        description: "ID of event that needs to be updated"
+        required: true
+        type: "integer"
+        format: "int64"
+      - name: "name"
+        in: "formData"
+        description: "Update the name of the event"
+        required: false
+        type: "string"
+      - name: "idLocation"
+        in: "formData"
+        description: "Update the id of the location"
+        required: false
+        type: "integer"
+        format: "int64"
+      - name: "date"
+        in: "formData"
+        description: "Update the date of the event"
+        required: false
+        type: "string"
+        format: "dateTime"
+      responses:
+        405:
+          description: "Invalid input"
+    delete:
+      tags:
+      - "events"
+      summary: "Deletes an event"
+      description: ""
+      operationId: "deleteEvent"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "eventId"
+        in: "path"
+        description: "Event id to delete"
+        required: true
+        type: "integer"
+        format: "int64"
+      responses:
+        400:
+          description: "Invalid ID supplied"
+        404:
+          description: "Event not found"
+  /lists:
+    post:
+      tags:
+      - "lists"
+      summary: "Create a new list in an event"
+      description: ""
+      operationId: "createList"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "List object that needs to be added to an event"
+        required: true
+        schema:
+          $ref: "#/definitions/List"
+      responses:
+        405:
+          description: "Invalid input"
+    get:
+      tags: 
+      - "lists"
+      summary: "Return all lists in the server"
+      description: ""
+      operationId: "getAllLists"
+      produces: 
+      - "application/json"
+      responses:
+        200:
+          description: "Successful operation"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/List"
+  /lists/join/{userId}:
+    post:
+      tags: 
+      - "lists"
+      summary: "Add a user to a list"
+      description: ""
+      operationId: "joinList"
+      produces: 
+      - "application/json"
+      parameters:
+        - name: "userId"
+          in: "path"
+          required: true
+          type: "integer"
+          format: "int64"
+      responses:
+        200:
+          description: "successful operation"
+        404:
+          description: "user not found"
+  /lists/{listId}:
+    get:
+      tags:
+      - "lists"
+      summary: "Find Event by Id"
+      description: "Returns a single Event"
+      operationId: "getListById"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "listId"
+        in: "path"
+        description: "ID of Event to return"
+        required: true
+        type: "integer"
+        format: "int64"
+      responses:
+        200:
+          description: "Successful operation"
+          schema:
+            $ref: "#/definitions/List"
+        400:
+          description: "Invalid ID supplied"
+        404:
+          description: "Event not found"
+    delete:
+      tags:
+      - "lists"
+      summary: "Deletes a list"
+      description: ""
+      operationId: "deleteList"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "listId"
+        in: "path"
+        description: "List id to delete"
+        required: true
+        type: "integer"
+        format: "int64"
+      responses:
+        400:
+          description: "Invalid ID supplied"
+        404:
+          description: "List not found"
+  /users/register:
+    post:
+      tags:
+      - "user"
+      summary: "Create user"
+      description: "This can only be done if user doesn't exists."
+      operationId: "createUser"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "Create user object"
+        required: true
+        schema:
+          $ref: "#/definitions/User"
+      responses:
+        default:
+          description: "successful operation"
+  /users/createWithArray:
+    post:
+      tags:
+      - "user"
+      summary: "Creates users with given input array"
+      description: ""
+      operationId: "createUsersWithArrayInput"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "List of user object"
+        required: true
+        schema:
+          type: "array"
+          items:
+            $ref: "#/definitions/User"
+      responses:
+        default:
+          description: "successful operation"
+  /users/login:
+    post:
+      tags:
+      - "user"
+      summary: "Logs user into the system"
+      description: ""
+      operationId: "loginUser"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "username"
+        in: "query"
+        description: "The user name for login"
+        required: true
+        type: "string"
+      - name: "password"
+        in: "query"
+        description: "The password for login in clear text"
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            type: "string"
+        400:
+          description: "Invalid username/password supplied"
+  /users/logout:
+    post:
+      tags:
+      - "user"
+      summary: "Logs out current logged in user session"
+      description: ""
+      operationId: "logoutUser"
+      produces:
+      - "application/json"
+      parameters: []
+      responses:
+        default:
+          description: "successful operation"
+  /users/{username}:
+    get:
+      tags:
+      - "user"
+      summary: "Get user by user name"
+      description: ""
+      operationId: "getUserByName"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "username"
+        in: "path"
+        description: "The name that needs to be fetched. Use user1 for testing. "
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/User"
+        400:
+          description: "Invalid username supplied"
+        404:
+          description: "User not found"
+    put:
+      tags:
+      - "user"
+      summary: "Updated user"
+      description: "This can only be done by the logged in user."
+      operationId: "updateUser"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "username"
+        in: "path"
+        description: "name that need to be updated"
+        required: true
+        type: "string"
+      - in: "body"
+        name: "body"
+        description: "Updated user object"
+        required: true
+        schema:
+          $ref: "#/definitions/User"
+      responses:
+        400:
+          description: "Invalid user supplied"
+        404:
+          description: "User not found"
+    delete:
+      tags:
+      - "user"
+      summary: "Delete user"
+      description: "This can only be done by the logged in user."
+      operationId: "deleteUser"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "username"
+        in: "path"
+        description: "The name that needs to be deleted"
+        required: true
+        type: "string"
+      responses:
+        400:
+          description: "Invalid username supplied"
+        404:
+          description: "User not found"
+definitions:
+  Event:
+    type: "object"
+    properties:
+      id:
+        type: "integer"
+        format: "int64"
+        example: 123
+      id_location: 
+        type: "integer"
+        format: "int64"
+        example: 456
+      name:
+        type: "string"
+        example: "Noche Halloween"
+      date:
+        type: "string"
+        format: "datetime"
+        example:   
+  User:
+    type: "object"
+    properties:
+      id:
+        type: "integer"
+        format: "int64"
+        example: 123
+      username:
+        type: "string"
+        example: "juanperez"
+      password:
+        type: "string"
+        example: "juancitoperez"
+      email:
+        type: "string"
+        example: "juanperez@gmail.com"
+  List:
+    type: "object"
+    properties:
+      id:
+        type: "integer"
+        format: "int64"
+        example: 123
+      id_event:
+        type: "integer"
+        format: "int64"
+        example: 456
+      capacity:
+        type: "integer"
+        format: "int64"
+        example: 15 
+  Location:
+    type: "object"
+    required:
+    - "name"
+    - "owner"
+    - "coord"
+    - "type"
+    properties:
+      id:
+        type: "integer"
+        format: "int64"
+        example: 123
+      name:
+        type: "string"
+        example: "Le Parc"
+      photoUrls:
+        type: "array"
+        example: ["www.images.com/1.jpg",
+                  "www.images.com/2.jpg",
+                  "www.images.com/3.jpg"]
+        items:
+          type: "string"
+      type:
+        type: "string"
+        enum:
+        - "resto"
+        - "disco"
+      owner:
+        type: "string"
+        example: "Juan Perez"
+      address:
+        type: "string"
+        example: "Av. Velez Sarfield 950, Córdoba, Argentina"
+      coord:
+        type: "string"
+        example: "-31.424219, -64.1925325"

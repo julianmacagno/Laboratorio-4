@@ -1,0 +1,45 @@
+<div class="container-fluid pt-2">
+    <div class="title row mb-3">
+        <div class="col-2">
+            <h3 class="font-weight-light"> {{eventName}} </h1>
+        </div>
+        <div class="col-2 pt-1">
+            <h4 class="font-weight-light"> {{eventDate}} </h2>
+        </div>
+    </div>
+    <div class="info row">
+        <div class="detail col-7">
+            <div class="row pictures">
+                <div class="col-3"><img class="image-thumbnail" src="https://via.placeholder.com/200"></div>
+                <div class="col-3"><img class="image-thumbnail" src="https://via.placeholder.com/200"></div>
+                <div class="col-3"><img class="image-thumbnail" src="https://via.placeholder.com/200"></div>
+            </div>
+            <div class="row brief mt-3">
+                <div class="col-10">
+                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Suscipit cupiditate, laboriosam ab beatae consectetur eos perferendis temporibus odit minima doloribus blanditiis iusto, dolorum repudiandae sed vero necessitatibus delectus repellendus? Quam quibusdam, aliquid quaerat et, qui recusandae, laudantium tempore enim molestias tempora ipsa quis? Sequi, doloribus. Iusto minus commodi asperiores, cupiditate omnis repellendus officia esse velit enim magnam mollitia et! Possimus praesentium sit similique? Unde ab voluptatum rerum minima maxime enim at doloremque, itaque voluptatem inventore et doloribus vel nesciunt sit nobis earum eius? Eum architecto, maxime praesentium fugit fuga enim sequi iste, autem repellat natus, illo pariatur neque assumenda non!
+                </div>
+            </div>
+        </div>
+        <div class="lists col">
+            <h2 class="font-weight-light">Listas</h2>
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th> Nombre </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {{#each list}}
+                        <tr>
+                            <td> <a href="list?name={{this.name}}">{{ this.name }}</a></td>
+                        </tr>
+                        {{/each}}
+                    </tbody>
+                </table>
+                <a href="newList?eventId={{eventId}}&eventName={{eventName}}">Nueva Lista</a>
+        </div>
+    </div>
+    <form action="home" method="GET"> 
+        <button type="submit" class="btn btn-lg btn-dark mt-2">Volver</button>
+    </form>
+</div>

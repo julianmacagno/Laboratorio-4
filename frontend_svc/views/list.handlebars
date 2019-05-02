@@ -1,0 +1,24 @@
+<div class="container-fluid pt-2">
+    <div class="title row mb-3">
+        <div class="col-3">
+            <h3 class="font-weight-light"> {{listName}}</h3>
+            <h5 class="font-weight-light">Administrador: {{listOwner}}</h5>
+        </div>
+        <div class="lists col">
+            <h4 class="font-weight-light"> Invitados </h2>
+            <ul class="list-group">
+                {{#each userList}}
+                    <li class="list-group-item list-group-item-action"> {{this.name}} </li>
+                {{/each}}    
+            </ul>
+        </div>
+    </div>
+    <div class="row actions mt-5 pl-3">
+        <form action="join?listId={{listId}}&role=1&listName={{listName}}" method="POST"> 
+            <button type="submit" class="btn btn-lg btn-dark mt-2">Unirse</button>
+        </form>
+        <form action="home" method="GET"> 
+            <button type="submit" class="btn btn-lg btn-dark mt-2">Volver</button>
+        </form>
+    </div>
+</div>

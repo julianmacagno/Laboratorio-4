@@ -1,6 +1,2 @@
-.vscode/
-spt-auth-master/venv/
-spt-web-master/node_modules/
-
-*.DS_Store
-*.pyc
+# Node Dependecies
+node_modules/

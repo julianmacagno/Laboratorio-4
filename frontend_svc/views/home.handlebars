@@ -1,0 +1,52 @@
+<div class="container-fluid pt-2">
+    <div class="row">
+        {{#if eventos}}
+        <div class="col-4 offset-2">
+            <h2 class="font-weight-light">Mis Eventos</h2>
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th> Nombre </th>
+                            <th> Fecha </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {{#each eventos}}
+                        <tr>
+                            <td > <a href="event?name={{this.name}}&id={{this.id}}">{{ this.name }}</a></td>
+                            <td>{{ this.date }}</td>
+                        </tr>
+                        {{/each}}
+                    </tbody>
+                </table>
+        </div>
+        {{/if}}
+        {{#if lugares}}
+        <div class="col-4">
+            <h2 class="font-weight-light">Mis Lugares</h2>
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th> Nombre </th>
+                            <th> Fecha </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {{#each eventos}}
+                        <tr>
+                            <td>{{ this.name }}</td>
+                            <td>{{ this.date }}</td>
+                        </tr>
+                        {{/each}}
+                    </tbody>
+                </table>
+        </div>
+        {{/if}}
+    </div>
+        <form action="newEvent" method="GET"> 
+            <button class="btn btn-success mt-2">Nuevo Evento</button>
+        </form>
+    <form action="home" method="GET"> 
+        <button type="submit" class="btn btn-lg btn-dark mt-2">Volver</button>
+    </form>
+</div>

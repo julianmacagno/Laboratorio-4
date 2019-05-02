@@ -1,0 +1,33 @@
+swagger: '2.0'
+info:
+  version: '1'
+  title: 'LAB4_Final'
+  description: 'Api Rest for the service of autentication and registration of the LAB4 final.'
+consumes:
+  - application/json
+  - application/xml
+produces:
+  - application/json
+  - application/xml
+paths: {
+  /register: {
+    post: {
+      summary: 'Regist users',
+      description: 'Receive a username, password and email and create a user on the database if not exists',
+      produces:
+        'application/json',
+    }
+  },
+  /login: {
+    post: {
+      summary: 'Login Users',
+      description: 'Receive a username and a password, and return a token to grant users use the services',
+      produces: 'application/json'
+    }
+  }
+}
+# Added by API Auto Mocking Plugin
+host: virtserver.swaggerhub.com
+basePath: /LAB4_Final/LAB4_Final/1
+schemes:
+ - https

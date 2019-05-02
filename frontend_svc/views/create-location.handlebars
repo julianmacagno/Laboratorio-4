@@ -1,0 +1,32 @@
+<div class="container">
+    <div class="row">
+        <div class="col"></div>
+        <div class="col-6 p-4">
+            <h2 class="font-weight-light">Nueva Ubicacion</h2>
+        </div>
+        <div class="col"></div>
+    </div>
+
+    <div class="row">
+        <div class="col"></div>
+        <div class="col-6">
+            <form action="create-list" method="POST">
+                <div class="form-group">
+                    <label for="name">Nombre</label>
+                    <input class="form-control" type="text" name="name" placeholder="Nombre del lugar" required="true">
+                </div>
+                <div class="form-group">
+                    <label for="address">Direccion</label>
+                    <input class="form-control" type="text" name="address" placeholder="Direccion del lugar"
+                        required="true">
+                </div>
+                <div class="form-group">
+                    <label for="type">Tipo</label>
+                    <input class="form-control" type="text" name="type" required="true">
+                </div>
+                <button class="btn btn-success" type="submit">Listo</button>
+            </form>
+        </div>
+        <div class="col"></div>
+    </div>
+</div>
